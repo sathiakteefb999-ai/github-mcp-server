@@ -1227,8 +1227,8 @@ func TestToolsetMetadataIcons(t *testing.T) {
 			}
 			// Verify icon properties
 			if len(icons) >= 2 {
-				if icons[0].MIMEType != "image/svg+xml" {
-					t.Errorf("Expected MIME type image/svg+xml, got %s", icons[0].MIMEType)
+				if icons[0].MIMEType != "image/png" {
+					t.Errorf("Expected MIME type image/png, got %s", icons[0].MIMEType)
 				}
 				if icons[0].Sizes[0] != "16x16" {
 					t.Errorf("Expected first icon size 16x16, got %s", icons[0].Sizes[0])
