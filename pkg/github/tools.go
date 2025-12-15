@@ -362,38 +362,6 @@ func AddDefaultToolset(result []string) []string {
 	return result
 }
 
-// cleanToolsets cleans and handles special toolset keywords:
-// - Duplicates are removed from the result
-// - Removes whitespaces
-// - Validates toolset names and returns invalid ones separately - for warning reporting
-// Returns: (toolsets, invalidToolsets)
-func CleanToolsets(enabledToolsets []string) ([]string, []string) {
-	seen := make(map[string]bool)
-	result := make([]string, 0, len(enabledToolsets))
-	invalid := make([]string, 0)
-	r := NewRegistry(translations.NullTranslationHelper).Build()
-
-	// Add non-default toolsets, removing duplicates and trimming whitespace
-	for _, toolset := range enabledToolsets {
-		trimmed := strings.TrimSpace(toolset)
-		if trimmed == "" {
-			continue
-		}
-		if !seen[trimmed] {
-			seen[trimmed] = true
-			result = append(result, trimmed)
-			// Check if it's a valid toolset (special keywords "all" and "default" are valid)
-			if !r.HasToolset(registry.ToolsetID(trimmed)) &&
-				trimmed != string(ToolsetMetadataAll.ID) &&
-				trimmed != string(ToolsetMetadataDefault.ID) {
-				invalid = append(invalid, trimmed)
-			}
-		}
-	}
-
-	return result, invalid
-}
-
 func RemoveToolset(tools []string, toRemove string) []string {
 	result := make([]string, 0, len(tools))
 	for _, tool := range tools {
